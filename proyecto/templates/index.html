@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EcoRoute AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Ahorra we, deja de gastar</h1>
+    <p class="subtitle">Calcula la forma más ecológica de viajar</p>
+
+    <!-- Formulario -->
+    <form method="POST">
+        <label>Distancia (km):</label>
+        <input type="number" name="distancia" required>
+        <button type="submit">Calcular</button>
+    </form>
+
+    {% if info %}
+    <!-- Resultados visibles al instante -->
+    <div class="result">
+        <p>🌱 Mejor opción: <strong>{{ info.mejor }}</strong></p>
+        <p>💡 Por qué: {{ info.razon }}</p>
+        <p>⚠️ Peor opción: <strong>{{ info.peor }}</strong></p>
+        <p>💚 CO₂ que ahorras comparado con {{ info.peor }}: {{ info.ahorro }} g</p>
+
+        <h3>Comparación de transportes:</h3>
+        <table>
+            <tr>
+                <th>Transporte</th>
+                <th>CO₂ (g)</th>
+            </tr>
+            {% for t, co2 in info.resultados.items() %}
+            <tr>
+                <td>{{ t }}</td>
+                <td>{{ co2 }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>
